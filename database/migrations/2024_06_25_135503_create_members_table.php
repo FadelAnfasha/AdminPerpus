@@ -17,6 +17,7 @@ return new class extends Migration
             $table->enum('gender', ['Male', 'Female'])->index();
             $table->string('address');
             $table->string('phoneNumber');
+            $table->string('photo'); // Add the photo column
             $table->timestamps();
         });
     }

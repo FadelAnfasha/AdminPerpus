@@ -1,18 +1,9 @@
 <!-- resources/views/components/update-book-form.blade.php -->
 @props(['book', 'authors', 'publishers', 'bookshelves'])
 
-<form action="{{ route('update-book', $book->id) }}" method="POST" class="max-w-md mx-auto">
+<form id="member-update-form" action="{{ route('update-book', $book->id) }}" method="POST" class="max-w-md mx-auto">
     @csrf
     @method('PUT')
-    @if ($errors->any())
-        <div class="alert alert-danger">
-            <ul>
-                @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
-    @endif
 
     <div class="relative z-0 w-full mb-5 group">
         <input type="text" name="title" id="title" value="{{ old('title', $book->title) }}"
@@ -21,6 +12,9 @@
         <label for="title"
             class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-emerald-600 peer-focus:dark:text-emerald-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Judul
             Buku</label>
+        @error('title')
+            <span class="text-sm text-red-600">{{ $message }}</span>
+        @enderror
     </div>
     <div class="relative z-0 w-full mb-5 group">
         <input type="text" name="publicationYear" id="publicationYear"
@@ -30,6 +24,9 @@
         <label for="publicationYear"
             class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-emerald-600 peer-focus:dark:text-emerald-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Tahun
             Terbit</label>
+        @error('publicationYear')
+            <span class="text-sm text-red-600">{{ $message }}</span>
+        @enderror
     </div>
     <div class="relative z-0 w-full mb-5 group">
         <input type="text" name="amount" id="amount" value="{{ old('amount', $book->amount) }}"
@@ -38,6 +35,9 @@
         <label for="amount"
             class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-emerald-600 peer-focus:dark:text-emerald-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Jumlah
             Buku</label>
+        @error('amount')
+            <span class="text-sm text-red-600">{{ $message }}</span>
+        @enderror
     </div>
     <div class="relative z-0 w-full mb-5 group">
         <label for="author_id" class="block mb-2 text-sm font-medium text-gray-500 dark:text-gray-400">Penulis</label>

@@ -8,4 +8,26 @@ use Illuminate\Database\Eloquent\Model;
 class Borrow extends Model
 {
     use HasFactory;
+    protected $table = 'borrowings';
+    public $timestamps = false;  // Menonaktifkan timestamps Eloquent
+
+
+    protected $fillable = [
+        'borrow_date', 'return_date', 'member_id', 'user_id', 'book_id'
+    ];
+
+    public function member()
+    {
+        return $this->belongsTo(Member::class);
+    }
+
+    public function book()
+    {
+        return $this->belongsTo(Book::class);
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

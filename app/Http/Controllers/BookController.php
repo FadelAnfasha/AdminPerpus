@@ -27,7 +27,7 @@ class BookController extends Controller
         $publishers = Publisher::pluck('name', 'id'); // get publisher name
         $bookshelves = Bookshelf::pluck('code'); //get bookshelf code
 
-        return view('addBook', [
+        return view('book/addBook', [
             'authors' => $authors,
             'publishers' => $publishers,
             'bookshelves' => $bookshelves
@@ -41,7 +41,7 @@ class BookController extends Controller
     {
         // Validate the incoming request
         $validatedData = $request->validate([
-            'title' => 'required|string|max:255',
+            'title' => 'required|string|max:255|unique:books,title',
             'publicationYear' => 'required|integer|min:1900|max:2099', // Ensure the correct field name from the form
             'amount' => 'required|integer|min:1|max:100',
             'author_id' => 'required|exists:authors,id',
@@ -61,13 +61,16 @@ class BookController extends Controller
             ]);
 
             // Redirect to the home page with success message
-            return redirect()->route('dashboard')->with('success', 'Book created successfully!');
+            return redirect()->route('show-book')->with([
+                'type' => 'stored',
+                'success' => 'Buku berhasil ditambahkan!'
+            ]);
         } catch (\Exception $e) {
             // Log the error message
             Log::error('Error creating book: ' . $e->getMessage());
 
             // Redirect back with error message
-            return redirect()->back()->with('error', 'An unexpected error occurred.');
+            return redirect()->back()->with('error', 'Error: Gagal menyimpan data buku!');
         }
     }
 
@@ -83,7 +86,7 @@ class BookController extends Controller
             $books->where('title', 'like', '%' . request('search') . '%');
         }
 
-        return view('viewBook', ['books' => $books->get()]);
+        return view('book/viewBook', ['books' => $books->get()]);
     }
 
     /**
@@ -96,13 +99,13 @@ class BookController extends Controller
         $publishers = Publisher::pluck('name', 'id');
         $bookshelves = Bookshelf::pluck('location', 'code');
 
-        return view('editBook', compact('book', 'authors', 'publishers', 'bookshelves'));
+        return view('book/editBook', compact('book', 'authors', 'publishers', 'bookshelves'));
     }
 
     public function update(Request $request, $id)
     {
         $validatedData = $request->validate([
-            'title' => 'required|string|max:255',
+            'title' => 'required|string|max:255|unique:books,title',
             'publicationYear' => 'required|integer|min:1900|max:2099',
             'amount' => 'required|integer|min:1|max:100',
             'author_id' => 'required|exists:authors,id',
@@ -113,7 +116,10 @@ class BookController extends Controller
         $book = Book::findOrFail($id);
         $book->update($validatedData);
 
-        return redirect()->route('show-book')->with('success', 'Book updated successfully!');
+        return redirect()->route('show-book')->with([
+            'type' => 'updated',
+            'success' => 'Buku berhasil diubah!'
+        ]);
     }
 
 
@@ -128,11 +134,14 @@ class BookController extends Controller
         try {
             $book->delete();
             // Redirect back to the list of books with a success message
-            return redirect()->route('show-book')->with('success', 'Book deleted successfully!');
+            return redirect()->route('show-book')->with([
+                'type' => 'deleted',
+                'success' => 'Buku telah dihapus!'
+            ]);
         } catch (\Exception $e) {
             // Log the error and redirect back with an error message
             Log::error('Error deleting book: ' . $e->getMessage());
-            return redirect()->route('update-book')->with('error', 'Failed to delete the book.');
+            return redirect()->route('show-book')->with('error', 'Gagal menghapus data buku!');
         }
     }
 }

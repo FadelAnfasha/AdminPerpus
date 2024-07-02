@@ -15,6 +15,12 @@ class Member extends Model
         'name',
         'gender',
         'address',
-        'phoneNumber'
+        'phoneNumber',
+        'photo'
     ];
+
+    public function borrow()
+    {
+        return $this->hasMany(Borrow::class);
+    }
 }

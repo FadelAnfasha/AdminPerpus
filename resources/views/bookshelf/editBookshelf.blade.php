@@ -1,11 +1,12 @@
 <x-app-layout>
     <x-slot name="title">
-        Daftar Buku
+        Ubah Rak Buku
     </x-slot>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-            {{ __('Daftar Buku-buku') }}
+            {{ __('Ubah Informasi Rak Buku') }}
         </h2>
     </x-slot>
-    <x-th-book :books="$books"></x-th-book>
+    <br>
+    <x-update-bookshelf-form :bookshelf="$bookshelf" />
 </x-app-layout>
