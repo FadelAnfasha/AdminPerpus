@@ -50,13 +50,25 @@ class ReturningController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Returning $returning)
+    public function show(Request $request)
     {
-        $returned = Returning::with(['borrow', 'user', 'book'])->get();
+        // Ambil data dengan relasi
+        $returned = Returning::with(['borrow.member', 'borrow.book', 'user'])->get();
 
+        // Cek apakah ada pencarian
+        if ($request->has('search')) {
+            $search = $request->input('search');
+
+            // Filter koleksi berdasarkan nama anggota atau judul buku
+            $returned = $returned->filter(function ($item) use ($search) {
+                return stripos($item->borrow->member->name, $search) !== false ||
+                    stripos($item->borrow->book->title, $search) !== false;
+            });
+        }
 
         return view('returning/viewReturning', ['returned' => $returned]);
     }
+
 
 
     /**
