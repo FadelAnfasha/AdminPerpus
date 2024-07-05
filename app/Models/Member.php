@@ -23,4 +23,9 @@ class Member extends Model
     {
         return $this->hasMany(Borrow::class);
     }
+
+    public function history_borrow()
+    {
+        return $this->hasMany(BorrowHistory::class);
+    }
 }

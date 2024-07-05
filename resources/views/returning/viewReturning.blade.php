@@ -1,10 +1,11 @@
 <x-app-layout>
     <x-slot name="title">
-        Tambah Rak Buku</x-slot>
+        Pengembalian
+    </x-slot>
     <x-slot name="header">
         <div class="flex justify-between items-center">
             <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-                {{ __('Tambah Rak Buku') }}
+                {{ __('Data Pengembalian') }}
             </h2>
             <a href="{{ route('dashboard') }}" class="py-2 px-4">
                 <button type="button"
@@ -15,5 +16,5 @@
         </div>
     </x-slot>
     <br>
-    <x-add-bookshelf-form></x-add-bookshelf-form>
+    <x-th-return :returned="$returned"></x-th-return>
 </x-app-layout>

@@ -55,7 +55,10 @@ class MemberController extends Controller
         ]);
 
         // Redirect ke halaman index dengan pesan sukses
-        return redirect()->route('show-member')->with('success', 'Member added successfully!');
+        return redirect()->route('show-member')->with([
+            'type' => 'stored',
+            'success' => 'Member berhasil ditambahkan!'
+        ]);
     }
 
 

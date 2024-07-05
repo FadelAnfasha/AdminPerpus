@@ -12,7 +12,11 @@
                 <option value="{{ $book['id'] }}">{{ $book['title'] }}</option>
             @endforeach
         </select>
+        @error('book_id')
+            <span class="text-sm text-red-600">{{ $message }}</span>
+        @enderror
     </div>
+
     <div class="relative z-0 w-full my-5 group">
         <label for="member_id" class="block mb-2 text-sm font-medium text-gray-500 dark:text-gray-400">Nama
             Peminjam</label>
@@ -22,6 +26,9 @@
                 <option value="{{ $member['id'] }}">{{ $member['name'] }}</option>
             @endforeach
         </select>
+        @error('member_id')
+            <span class="text-sm text-red-600">{{ $message }}</span>
+        @enderror
     </div>
 
     <div id="date-range-picker" date-rangepicker class="flex items-center">
@@ -36,6 +43,9 @@
             <input id="borrowDate" name="borrowDate" type="text"
                 class="bg-gray-50 border border-gray-400 text-gray-900 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 block w-full ps-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-green-500 dark:focus:border-green-500"
                 placeholder="Tanggal Pinjam" datepicker datepicker-buttons datepicker-autoselect-today>
+            @error('borrowDate')
+                <span class="text-sm text-red-600">{{ $message }}</span>
+            @enderror
         </div>
         <span class="mx-4 text-gray-700">s/d</span>
         <div class="relative">
@@ -49,10 +59,16 @@
             <input id="returnDate" name="returnDate" type="text"
                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 placeholder="Tanggal Kembali" datepicker datepicker-buttons>
+            @error('returnDate')
+                <span class="text-sm text-red-600">{{ $message }}</span>
+            @enderror
         </div>
     </div>
 
     <input type="hidden" name="user_id" id="user_id" value="{{ $userId }}">
+    @error('user_id')
+        <span class="text-sm text-red-600">{{ $message }}</span>
+    @enderror
     <br>
 
     <button type="submit"

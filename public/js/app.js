@@ -1,3 +1,6 @@
+//==========ANGGOTA==========
+
+//Upload foto member
 document.addEventListener('DOMContentLoaded', function() {
     const fileInput = document.getElementById('photo');
     const fileChosen = document.getElementById('file-chosen');
@@ -26,7 +29,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    //==========ANGGOTA==========
 
     // STORE ALERT
     const memberForm = document.getElementById('store-member-form');
@@ -34,7 +36,7 @@ document.addEventListener('DOMContentLoaded', function() {
         memberForm.addEventListener('submit', function(event) {
             event.preventDefault(); // Mencegah formulir dikirimkan secara langsung
 
-            const userConfirmed = confirm('Apakah data buku sudah benar?');
+            const userConfirmed = confirm('Apakah data anggota sudah benar?');
 
             if (userConfirmed) {
                 memberForm.submit(); // Mengirimkan formulir jika pengguna mengkonfirmasi

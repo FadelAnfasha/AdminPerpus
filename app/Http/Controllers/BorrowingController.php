@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Book;
 use App\Models\User;
 use App\Models\Borrow;
+use App\Models\BorrowHistory;
 use App\Models\Member;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
@@ -39,13 +40,13 @@ class BorrowingController extends Controller
     public function store(Request $request)
     {
         $validatedData = $request->validate([
-            'borrowDate' => 'required|date|after_or_equal:today',
+            'borrowDate' => 'required|date|date_equals:today',
             'returnDate' => 'required|date|after:borrowDate',
             'book_id' => 'required',
             'member_id' => 'required',
             'user_id' => 'required'
         ], [
-            'borrowDate.after_or_equal' => 'Tanggal pinjam tidak boleh sebelum hari ini.',
+            'borrowDate.date_equals' => 'Tanggal pinjam harus hari ini.',
             'returnDate.after' => 'Tanggal kembali harus setelah tanggal pinjam.'
         ]);
         $validatedData['borrowDate'] = Carbon::parse($validatedData['borrowDate'])->format('Y-m-d');
@@ -53,6 +54,14 @@ class BorrowingController extends Controller
 
         try {
             $borrow = Borrow::create([
+                'borrow_date' => $validatedData['borrowDate'],
+                'return_date' => $validatedData['returnDate'],
+                'member_id' => $validatedData['member_id'],
+                'user_id' => $validatedData['user_id'],
+                'book_id' => $validatedData['book_id']
+            ]);
+
+            $history = BorrowHistory::create([
                 'borrow_date' => $validatedData['borrowDate'],
                 'return_date' => $validatedData['returnDate'],
                 'member_id' => $validatedData['member_id'],
@@ -76,9 +85,11 @@ class BorrowingController extends Controller
      */
     public function show(Borrow $borrow)
     {
-        $borrows = Borrow::with(['member', 'user']);
-        if (request('search')) {
-            $borrows->where('title', 'like', '%' . request('search') . '%');
+        $borrows = Borrow::with(['member', 'user', 'book']);
+        if ($search = request('search')) {
+            $borrows->whereHas('book', function ($query) use ($search) {
+                $query->where('title', 'like', '%' . $search . '%');
+            });
         }
 
         return view('borrow/viewBorrow', ['borrows' => $borrows->get()]);

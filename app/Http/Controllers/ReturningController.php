@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Borrow;
 use App\Models\Returning;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 
 class ReturningController extends Controller
 {
@@ -26,9 +28,23 @@ class ReturningController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store($id)
     {
-        //
+        $borrowData = Borrow::findOrFail($id);
+        $returnTime = Carbon::now()->format('Y-m-d');
+        $storeData = Returning::create(
+            [
+                'return_date' => $returnTime,
+                'borrowing_id' => $borrowData->id,
+                'user_id' => $borrowData->user_id,
+                'book_id' => $borrowData->book_id,
+            ]
+        );
+        $borrowData->delete();
+        return redirect()->route('show-borrow')->with([
+            'type' => 'stored',
+            'success' => 'Data peminjaman berhasil diperbaharui!'
+        ]);
     }
 
     /**
@@ -36,8 +52,12 @@ class ReturningController extends Controller
      */
     public function show(Returning $returning)
     {
-        //
+        $returned = Returning::with(['borrow', 'user', 'book'])->get();
+
+
+        return view('returning/viewReturning', ['returned' => $returned]);
     }
+
 
     /**
      * Show the form for editing the specified resource.

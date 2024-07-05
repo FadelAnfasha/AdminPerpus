@@ -14,12 +14,9 @@ return new class extends Migration
         Schema::create('returneds', function (Blueprint $table) {
             $table->id();
             $table->date('return_date');
-            $table->integer('penalty');
-            $table->foreignId('borrowing_id')->constrained('borrowings')->index('borrow_detail');
+            $table->foreignId('borrowing_id')->constrained('borrow_histories')->index('borrow_detail');
             $table->foreignId('user_id')->constrained('users')->index('return_user');
             $table->foreignId('book_id')->constrained('books')->index('return_book');
-
-            $table->timestamps();
         });
     }
 

@@ -8,6 +8,8 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\BookshelfController;
 use App\Http\Controllers\BorrowingController;
 use App\Http\Controllers\PublisherController;
+use App\Http\Controllers\ReturningController;
+use App\Http\Controllers\BorrowHistoryController;
 
 Route::get('/', function () {
     return view('home');
@@ -70,7 +72,7 @@ Route::middleware('auth', 'verified')->group(function () {
     Route::post('/store-member', [MemberController::class, 'store'])->name('store-member');
     Route::get('/editmember/{id}', [MemberController::class, 'edit'])->name('edit-member');
     Route::put('/updatemember/{id}', [MemberController::class, 'update'])->name('update-member');
-    Route::delete('/member/{member}', [MemberController::class, 'destroy'])->name('delete-member');
+    Route::delete('/deletemember/{member}', [MemberController::class, 'destroy'])->name('delete-member');
 
     //Route card Peminjaman
     Route::get('/viewborrow', [BorrowingController::class, 'show'])->name('show-borrow');
@@ -79,7 +81,14 @@ Route::middleware('auth', 'verified')->group(function () {
     Route::post('/store-borrow', [BorrowingController::class, 'store'])->name('store-borrow');
     Route::get('/detailborrow/{id}', [BorrowingController::class, 'detail'])->name('detail-borrow');
     Route::put('/updateborrow/{id}', [BorrowingController::class, 'update'])->name('update-borrow');
-    Route::delete('/borrows/{borrow}', [BorrowingController::class, 'destroy'])->name('delete-borrow');
+    Route::delete('/deleteborrows/{borrow}', [BorrowingController::class, 'destroy'])->name('delete-borrow');
+    Route::get('/storereturning/{borrow}', [ReturningController::class, 'store'])->name('store-returning');
+
+    //Route card Riwayat Peminjaman
+    Route::get('/viewborrowing', [BorrowHistoryController::class, 'show'])->name('show-borrowing');
+
+    //Route card Riwayat Pengembalian
+    Route::get('/viewreturn', [ReturningController::class, 'show'])->name('show-returning');
 });
 
 require __DIR__ . '/auth.php';

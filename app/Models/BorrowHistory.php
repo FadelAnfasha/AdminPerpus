@@ -5,14 +5,15 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Returning extends Model
+class BorrowHistory extends Model
 {
     use HasFactory;
-    protected $table = 'returneds';
+    protected $table = 'borrow_histories';
     public $timestamps = false;  // Menonaktifkan timestamps Eloquent
 
+
     protected $fillable = [
-        'return_date', 'borrowing_id', 'user_id', 'book_id'
+        'borrow_date', 'return_date', 'member_id', 'user_id', 'book_id'
     ];
 
     public function member()
@@ -30,8 +31,8 @@ class Returning extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function borrow()
+    public function returning()
     {
-        return $this->belongsTo(BorrowHistory::class, 'borrowing_id');
+        return $this->hasOne(Returning::class, 'borrowing_id');
     }
 }

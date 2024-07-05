@@ -49,4 +49,9 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->hasMany(Borrow::class);
     }
+
+    public function history_borrow()
+    {
+        return $this->hasMany(BorrowHistory::class);
+    }
 }

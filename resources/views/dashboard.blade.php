@@ -24,8 +24,8 @@
                     <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
                         <x-cards :content="'Peminjaman'" :img="asset('image/cards/borrow-icon.png')" :href="'borrow'" />
                         <x-cards :content="'Anggota'" :img="asset('image/Cards/members-icon.png')" :href="'member'" />
-                        <x-cards :content="'Data Peminjaman'" :img="asset('image/cards/display-icon.png')" :href="'borrowing'" />
-                        <x-cards :content="'Data Pengembalian'" :img="asset('image/cards/return-icon.png')" :href="'return'" />
+                        <x-cards :content="'Riwayat Peminjaman'" :img="asset('image/cards/display-icon.png')" :href="'borrowing'" />
+                        <x-cards :content="'Riwayat Pengembalian'" :img="asset('image/cards/return-icon.png')" :href="'return'" />
                     </div>
                 </div>
             </div>
